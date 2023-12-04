@@ -1005,20 +1005,75 @@ class calibrationDocument {
         jhctmxconelfkgmprnfourseven8twofkjvlvnjgd
         twonrpvnnmvkh2threejzcpz
     """.trimIndent()
-    fun calibrationDocument () {
-        var arrString: List<String> = string.split("\n")
-        var result: MutableList<Int> = mutableListOf()
-        var arr: MutableList<String> = mutableListOf()
-        for (i in 0..arrString.size - 1) {
-            arrString.map {
-                arrString[it]
+    fun convertToNumbers(input: String): String {
+        val replacements = mapOf(
+            "one" to "1",
+            "two" to "2",
+            "three" to "3",
+            "four" to "4",
+            "five" to "5",
+            "six" to "6",
+            "seven" to "7",
+            "eight" to "8",
+            "nine" to "9"
+        )
+
+        var result = input
+        var replaced: Boolean
+
+        do {
+            replaced = false
+            for ((word, number) in replacements) {
+                if (result.contains(word)) {
+                    result = result.replaceFirst(word, number)
+                    replaced = true
+                }
             }
+        } while (replaced)
+
+        return result
+    }
+
+
+
+    fun calibrationDocument () {
+        val string1: String = convertToNumbers(string)
+        var arrString: List<String> = string1.split("\n")
+        var arr: MutableList<Int> = mutableListOf()
+        var arrInt: MutableList<Int> = mutableListOf()
+
+        for (i in 1..arrString.size) {
+            for(j in 1..arrString[i - 1].length) {
+                if(arrString[i - 1][j - 1].digitToIntOrNull() != null) {
+                    arrInt.add(arrString[i - 1][j - 1].digitToInt())
+                }
+            }
+            if (arrInt.size == 1) {
+                val ik: String = arrInt.first().toString() + arrInt.first().toString()
+                arr += ik.toInt()
+            } else {
+                val ij: String = arrInt.first().toString() + arrInt.last().toString()
+                println("ij: $i :   $ij")
+                arr += ij.toInt()
+            }
+            arrInt.clear()
         }
+        println(arrInt)
         println(arr)
+        println(arrString.size)
+        println(arr.size)
+        println("solved: " + arr.sum())
+
     }
 
 }
 /*
+
+        for (i in 1..arrString.size) {
+            println("line " + i + ":   " + arrString[i - 1])
+        }
+
+
         var arrString: List<String> = string.split("\n")
         var arr: MutableList<Int> = mutableListOf()
         var arrInt: MutableList<Int> = mutableListOf()
